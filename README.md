@@ -38,9 +38,8 @@ Both are based on the original files and don't affect the original behaviour in 
 
 ## Hacks
 When the status page shows the hacks have been applied successfully, the following features are available:
-- You can place any binaries, scripts etc. you need on the ext2 partition. The device only has limited space available on internal flash so you don't risk running out of space.
+- You can place any binaries, scripts etc. you need in the ext2 partition on the sd-card. The device only has limited space available on internal flash so this way you don't risk running out of space.
 - A busybox build is provided with many applets available such as telnetd, ftpd, netcat.
 - Scripts placed in hacks/etc/scripts will be automatically executed after the device boots.
 
 Scripts can be enabled and disabled by visiting ```http://device-ip/cgi-bin/scripts```
-
