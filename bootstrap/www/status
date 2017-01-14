@@ -58,14 +58,21 @@ cat << EOF
 <hr/>
 <button title='Start default telnetd on port 23' type='button' onClick="window.location.href='action?cmd=telnetd'">Start rescue telnetd</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
-<button title='Manage scripts' type='button' onClick="window.location.href='action?cmd=scripts'">Manage scripts</button>
+<button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
 <button title='Network' type='button' onClick="window.location.href='action?cmd=network'">Network</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
 <table class='tbl'>
 <tr>
   <th>Date:</th>
-  <td>$(date)</td>
+  <td>
+      <form style="margin: 0px" action="/cgi-bin/action?cmd=settz" method="post">
+        $(date)
+        <label style="margin-left: 5em" for="tz">TZ:</label>
+        <input id="tz" name="tz" type="text" size="25" value="$(cat /etc/TZ)"/>
+        <input type="submit" value="Set"/>
+      </form>
+  </td>
 </tr>
 <tr>
   <th>System uptime:</th>
