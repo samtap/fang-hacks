@@ -1,4 +1,0 @@
-#!/bin/sh
-echo "Starting FTPd..."
-
-tcpsvd -E 0.0.0.0 21 ftpd -w /media/mmcblk0p2/data &

@@ -1,22 +1,14 @@
 #!/bin/sh
-PIDFILE="/var/run/fang-telnetd.pid"
+PIDFILE="/var/run/fang-ftpd.pid"
 status()
 {
   pid="$(cat "$PIDFILE" 2>/dev/null)"
   if [ "$pid" ]; then
-    kill -0 "$pid" 2>/dev/null && echo "$pid" || return 1
+    kill -0 "$pid" >/dev/null && echo "$pid" || return 1
     return 0
   else
     return 1
   fi
-}
-
-start() 
-{
-  echo "Starting telnetd on port 2323..."
-  telnetd -p 2323 -l fang_login &
-  sleep 1
-  pidof telnetd > "$PIDFILE"
 }
 
 stop()
@@ -26,6 +18,13 @@ stop()
      kill $pid
      rm "$PIDFILE"
   fi
+}
+
+start()
+{
+  echo "Starting FTPd..."
+  tcpsvd -E 0.0.0.0 21 ftpd -w /media/mmcblk0p2/data </dev/null >/dev/null 2>&1 &
+  echo "$!" > "$PIDFILE"
 }
 
 if [ $# -eq 0 ]; then
