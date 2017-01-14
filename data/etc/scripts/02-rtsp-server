@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#LOG=/tmp/rtsp_server.log
+LOG=/dev/null
+
+snx_rtsp_server -a > $LOG 2>&1 &
+

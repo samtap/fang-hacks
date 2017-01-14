@@ -1,0 +1,94 @@
+#!/bin/sh
+
+echo "Content-type: text/html"
+echo ""
+
+cat << EOF
+<html>
+<head>
+<title>Fang Hacks</title>
+<head>
+<style type="text/css">
+body { background-color: #B0E0E6; }
+.err { color: red; }
+.tbl { border-collapse: collapse; border-spacing: 0;}
+.tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+.tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+</style>
+<body>
+<pre>
+____  ___.__             ___________                      
+\   \/  /|__|____    ____\_   _____/____    ____    ____  
+ \     / |  \__  \  /  _ \|    __) \__  \  /    \  / ___\ 
+ /     \ |  |/ __ \(  <_> )     \   / __ \|   |  \/ /_/  >
+/___/\  \|__(____  /\____/\___  /  (____  /___|  /\___  / 
+      \_/        \/           \/        \/     \//_____/  
+              ___ ___                __                   
+             /   |   \_____    ____ |  | __  ______       
+            /    ~    \__  \ _/ ___\|  |/ / /  ___/       
+            \    Y    // __ \\  \___|    <  \___ \        
+             \___|_  /(____  /\___  >__|_ \/____  >       
+                   \/      \/     \/     \/     \/        
+				     Version 1.0
+
+</pre>
+<div>
+<p>
+EOF
+HACKS_HOME="/media/mmcblk0p2/data"
+if [ -x "/etc/fang_hacks.sh" ]; then
+   echo "Script is already installed!<br/>" 
+   if [ ! $(mount |grep /media/mmcblk0p2) ]; then
+       echo "<span class='err'>Error: Nothing is mounted on /media/mmcblk0p2!</span>"
+       echo "<button title='Try to mount the hacks partition manually' type='button' onClick=\"window.location.href='action?cmd=manual_mount'\">Manual Mount</button>"
+       echo "<br/>"
+   elif [ ! -d "$HACKS_HOME" ]; then
+       echo "<span class='err'>Error: No 'hacks' directory found in /media/mmcblk0p2!</span>"
+       echo "<br/>"
+   fi
+   echo "Apply updates from sd-card?"
+   echo "<button title='Copy updates from sd-card to device' type='button' onClick=\"window.location.href='action?cmd=update'\">Update</button>"
+else
+   echo "Do you want to apply Xiao Fang hacks?<br/>"
+   echo "<button title='Copy the fang_hacks.sh script to the device' type='button' onClick=\"window.location.href='action?cmd=apply'\">Apply</button>"
+fi
+
+cat << EOF
+</p>
+<hr/>
+<button title='Start default telnetd on port 23' type='button' onClick="window.location.href='action?cmd=telnetd'">Start rescue telnetd</button>
+<button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
+<button title='Manage scripts' type='button' onClick="window.location.href='action?cmd=scripts'">Manage scripts</button>
+<button title='Network' type='button' onClick="window.location.href='action?cmd=network'">Network</button>
+<button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
+<hr/>
+<table class='tbl'>
+<tr>
+  <th>Date:</th>
+  <td>$(date)</td>
+</tr>
+<tr>
+  <th>System uptime:</th>
+  <td>$(uptime)</td>
+</tr>
+<tr>
+  <th>Version:</th>
+  <td>$(cat /etc/os-release | cut -d'=' -f2)</td>
+</tr>
+<tr>
+  <th>Kernel:</th>
+  <td>$(uname -a)</td>
+</tr>
+<tr>
+  <th>Process list:</th>
+  <td><pre>$(ps)</td>
+</tr>
+<tr>
+  <th>Mounts:</th>
+  <td><pre>$(mount)</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
+EOF

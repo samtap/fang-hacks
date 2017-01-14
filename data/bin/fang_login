@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ENV=/media/mmcblk0p2/data/etc/profile login -p

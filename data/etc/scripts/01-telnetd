@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "Starting telnetd on port 2323..."
+telnetd -p 2323 -l fang_login &

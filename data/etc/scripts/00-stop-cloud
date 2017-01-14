@@ -1,0 +1,8 @@
+#!/bin/sh
+                                     
+echo "Stopping Cloud applications..."
+kill `pidof test_UP`    
+kill -9 `pidof iSC3S`   
+kill `pidof miio_client`
+sleep 10
+rmmod -f snx_wdt >> /tmp/hacks.log 2>&1
