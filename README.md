@@ -26,6 +26,9 @@ Please make sure to insert the sd-card after the device has finished booting. So
 
 Click 'Apply' to enable the hacks.
 
+### 6. Use new Features
+RTSP: By default you can now access your camera's video steam by ```rtsp://device-ip:554/unicast```
+
 ## Background
 The modifications aim to be as least intrusive as possible. Currently there's no recovery method when the device doesn't boot, so only a minimum of system files are modified. This means you can always revert to original behavior by simply removing the sd-card.
 
