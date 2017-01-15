@@ -43,8 +43,17 @@ if [ -x "/etc/fang_hacks.sh" ]; then
        echo "<button title='Try to mount the hacks partition manually' type='button' onClick=\"window.location.href='action?cmd=manual_mount'\">Manual Mount</button>"
        echo "<br/>"
    elif [ ! -d "$HACKS_HOME" ]; then
-       echo "<span class='err'>Error: No 'hacks' directory found in /media/mmcblk0p2!</span>"
+       echo "<span class='err'>Error: No 'data' directory found in /media/mmcblk0p2!</span>"
        echo "<br/>"
+   else
+       if [ -e "/etc/.resize_runonce" ]; then
+         echo "<span class='err'>Reboot required to apply new partition layout!</span>"
+         echo "<br/>"
+       elif [ -e "$HACKS_HOME/.resize" ]; then
+         echo "Expand data partition (/media/mmcblk0p2)?"
+         echo "<button title='Expand data partition' type='button' onClick=\"window.location.href='action?cmd=expandfs'\">Yes</button>"
+         echo "<br/>"
+       fi
    fi
    echo "Apply updates from sd-card?"
    echo "<button title='Copy updates from sd-card to device' type='button' onClick=\"window.location.href='action?cmd=update'\">Update</button>"

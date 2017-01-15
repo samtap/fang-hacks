@@ -31,6 +31,29 @@ do_patch()
   return $rc
 }
 
+do_resize()
+{
+  logmsg "Resizing /dev/mmcblk0p2"
+  mount /dev/mmcblk0p1 /media/mmcblk0p1 >/dev/null 2>&1
+  umount /dev/mmcblk0p2 >/dev/null 2>&1
+  resize2fs="/media/mmcblk0p1/bootstrap/resize2fs"
+  e2fsck="/media/mmcblk0p1/bootstrap/e2fsck"
+  rc=0
+  if [ -x "$resize2fs" ]; then
+    $resize2fs -f /dev/mmcblk0p2 >/tmp/hacks.log 2>&1
+    rc=$?
+  else
+    echo "resize2fs not found!"
+    rc=1
+  fi
+
+  mount /dev/mmcblk0p2 /media/mmcblk0p2 >/dev/null 2>&1
+  if [ -e "$HACKS_HOME/.resize" ]; then
+    rm "$HACKS_HOME/.resize"
+  fi
+  return $rc
+}
+
 # Remove stale log
 if [ -f /tmp/hacks.log ]; then
   rm /tmp/hacks.log
@@ -58,15 +81,26 @@ fi
 
 if [ ! -d "$HACKS_HOME" -o ! -f "$HACKS_HOME/etc/profile" ]; then
   logmsg "Failed to find hacks in $HACKS_HOME!"
+
+  if [ -e /etc/.resize_runonce ]; then
+   do_resize && rm /etc/.resize_runonce
+  fi
+
   mount /dev/mmcblk0p2 /media/mmcblk0p2 >> /tmp/hacks.log 2>&1
   if [ ! -d "$HACKS_HOME" -o ! -f "$HACKS_HOME/etc/profile" ]; then
     logmsg "Failed to find $HACKS_HOME!"
     return 1
+  else
+    logmsg "Mounted $HACKS_HOME"
   fi
-else
-    source "$HACKS_HOME/etc/profile" >/dev/null
+elif [ -e /etc/.resize_runonce ]; then
+  do_resize && rm /etc/.resize_runonce
 fi
   
+if [ -f "$HACKS_HOME/etc/profile" ]; then
+  source "$HACKS_HOME/etc/profile" >/dev/null
+fi
+
 if ! type patch >/dev/null; then
   logmsg "Patch command not found! Patches will not be applied."
 else

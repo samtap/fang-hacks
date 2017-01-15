@@ -4,7 +4,7 @@ if [ $ACTION = "add" ]; then
 	mkdir -p /media/$MDEV
 
 	grep -w "3" /proc/mmc/pwroff
-	$status = $?
+	status = $?
 
 	if [ ! -x /tmp/mmc.all.log ] || [ $status == 0 ]; then
 #		sleep 1

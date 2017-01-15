@@ -126,6 +126,33 @@ if [ -n "$F_cmd" ]; then
     /usr/sbin/ntpdate time.google.com
     if [ $? -eq 0 ]; then echo "<br/>Success<br/>"; else echo "<br/>Failed<br/>"; fi
     ;;
+  expandfs)
+    source /media/mmcblk0p2/data/etc/profile >/dev/null
+    if type awk >/dev/null; then
+      if type fdisk >/dev/null; then
+        p2_start=$(fdisk -l /dev/mmcblk0 | grep mmcblk0p2 | awk '{print $2}')
+        echo "Found the start point of mmcblk0p2: $p2_start<br/>"
+        fdisk /dev/mmcblk0 >/dev/null << __EOF__ 
+d
+2
+n
+p
+2
+$p2_start
+
+p
+w
+__EOF__
+        sync
+        touch /etc/.resize_runonce
+        echo "Ok, Partition resized, please reboot now<br/>"
+      else
+        echo "fdisk not found!<br/>"
+      fi
+    else
+      echo "awk not found!"
+    fi
+    ;;
   *)
     echo "Unsupported command '$F_cmd'"
     ;;
