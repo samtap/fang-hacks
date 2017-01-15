@@ -46,6 +46,7 @@ When the status page shows the hacks have been applied successfully, the followi
 
 # Features
 By default the following features are enabled:
+- FTP server to access and update files on sd-card
 - RTSP server can be accessed on ```rtsp://device-ip/unicast```
 - A telnet server (using the busybox from sd-card) is running on port 2323 (user: root, password: ismart12)
 - A script controls the IR filter and LEDs
