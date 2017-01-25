@@ -14,6 +14,5 @@ echo 3 > /proc/sys/net/ipv4/tcp_keepalive_probes
 echo 5 > /proc/sys/net/ipv4/tcp_keepalive_intvl
 
 if [ -x "/etc/fang_hacks.sh" ]; then
-    sleep 30
     /etc/fang_hacks.sh
 fi

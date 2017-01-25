@@ -9,10 +9,12 @@ cat << EOF
 <title>Fang Hacks</title>
 <head>
 <style type="text/css">
-body { background-color: #B0E0E6; }
+body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
 .err { color: red; }
+hr { height: 1px; border: 0; border-top: 1px solid #aaa; }
+button, input[type=submit] { background-color: #ddeaff; }
 .tbl { border-collapse: collapse; border-spacing: 0;}
-.tbl th { text-align: left; vertical-align: top; font-weight: normal; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+.tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 .tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 </style>
 <body>
@@ -20,7 +22,7 @@ body { background-color: #B0E0E6; }
 <hr/>
 <button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
-<button title='Network' type='button' onClick="window.location.href='action?cmd=network'">Network</button>
+<button title='Network' type='button' onClick="window.location.href='network'">Network</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
 EOF
@@ -73,14 +75,24 @@ else
     echo "<td>$i</td>"
     if [ -x "$SCRIPT_HOME/$i" ]; then
       if [ $(grep "^status\(\)" "$SCRIPT_HOME/$i") ]; then
-        pid="$($SCRIPT_HOME/$i status)"
-        if [ "$pid" ]; then echo "<td bgcolor='green'>PID: $pid</td>"; else echo "<td bgcolor='red'>NOK</td>"; fi
+        status="$($SCRIPT_HOME/$i status)"
+        if [ $? -eq 0 ]; then
+          if [ -n "$status" ]; then
+            bgcolor="green";
+          else 
+            bgcolor="orange";
+          fi
+        else
+          bgcolor="red"
+          status="NOK"
+        fi
+        echo "<td bgcolor='$bgcolor'>$status</td>";
       else
         echo "<td/>"
       fi
 
       if [ $(grep "^start\(\)" "$SCRIPT_HOME/$i") ]; then
-        if [ -z "$pid" ]; then
+        if [ -z "$status" ]; then
           echo "<td><button title='Start script' type='button' onClick=\"window.location.href='scripts?cmd=start&script=$i'\">Start</button</td>"
         else
           echo "<td><button title='Already running' disabled>Start</button>"
@@ -90,7 +102,7 @@ else
       fi
 
       if [ $(grep "^stop\(\)" "$SCRIPT_HOME/$i") ]; then
-        if [ -n "$pid" ]; then
+        if [ -n "$status" ]; then
           echo "<td><button title='Stop script' type='button' onClick=\"window.location.href='scripts?cmd=stop&script=$i'\">Stop</button></td>"
         else
           echo "<td><button title='Not running' disabled>Stop</button>"

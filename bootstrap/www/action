@@ -62,7 +62,11 @@ update()
   echo "<hr/>"
   update_file "/etc/fang_hacks.sh" "/media/mmcblk0p1/bootstrap/fang_hacks.sh" 755
   echo "<hr/>"
+  update_file "/etc/fang_hacks.cfg" "/media/mmcblk0p1/bootstrap/fang_hacks.cfg" 644
+  echo "<hr/>"
   update_file "/etc/init.d/rc.local" "/media/mmcblk0p1/bootstrap/rc.local" 755
+  echo "<hr/>"
+  update_file "/etc/init.d/rcS" "/media/mmcblk0p1/bootstrap/rcS" 755
 }
 
 apply_file()
@@ -79,7 +83,9 @@ apply()
 {
   apply_file "/media/mmcblk0p1/bootstrap/sdcard" "/etc/hotplug/sdcard" 755
   apply_file "/media/mmcblk0p1/bootstrap/rc.local" "/etc/init.d/rc.local" 755
+  apply_file "/media/mmcblk0p1/bootstrap/rcS" "/etc/init.d/rcS" 755
   apply_file "/media/mmcblk0p1/bootstrap/fang_hacks.sh" "/etc/fang_hacks.sh" 755
+  apply_file "/media/mmcblk0p1/bootstrap/fang_hacks.cfg" "/etc/fang_hacks.cfg" 644
 
   if [ -x "/etc/fang_hacks.sh" ]; then
     echo "Running fang_hacks.sh...<br/>"
@@ -118,12 +124,41 @@ if [ -n "$F_cmd" ]; then
     echo "Applying fang hacks scripts...<br/>"
     apply
     ;;
+  apply_cfg)
+    echo "Applying fang hacks configuration...<br/>"
+    echo "<pre>"
+    if [ -n "${F_hacks_enable}" ]; then
+      echo "HACKS_ENABLED=1"
+      cmd="s/^\(HACKS_ENABLED\)=0/\1=1/;"
+    else
+      echo "HACKS_ENABLED=0"
+      cmd="s/^\(HACKS_ENABLED\)=1/\1=0/;"
+    fi
+
+    if [ -n "${F_disable_cloud}" ]; then
+      echo "DISABLE_CLOUD=1"
+      cmd="$cmd s/^\(DISABLE_CLOUD\)=0/\1=1/;"
+    else
+      echo "DISABLE_CLOUD=0"
+      cmd="$cmd s/^\(DISABLE_CLOUD\)=1/\1=0/;"
+    fi
+    sed -i.bak "$cmd" /etc/fang_hacks.cfg 2>&1
+    echo "</pre>"
+    if [ $? -eq 0 ]; then echo "Success"; else echo "Failed"; fi
+    ;;
   settz)
     tz=$(printf '%b' "${F_tz//%/\\x}")
-    echo "Setting TZ to '$tz'...<br/>"
-    echo "$tz" > /etc/TZ
-    echo "Syncing time...<br/>"
-    /usr/sbin/ntpdate time.google.com
+    if [ $(cat /etc/TZ) != "$tz" ]; then
+      echo "Setting TZ to '$tz'...<br/>"
+      echo "$tz" > /etc/TZ
+      echo "Syncing time...<br/>"                                                         
+      /usr/sbin/ntpd -q -n -p time.google.com 2>&1
+    fi
+    hst=$(printf '%b' "${F_hostname//%/\\x}")
+    if [ $(cat /etc/hostname) != "$hst" ]; then
+      echo "Setting hostname to '$hst'...<br/>"
+      echo "$hst" > /etc/hostname
+    fi
     if [ $? -eq 0 ]; then echo "<br/>Success<br/>"; else echo "<br/>Failed<br/>"; fi
     ;;
   expandfs)
