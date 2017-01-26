@@ -6,6 +6,8 @@ Collection of modifications for the XiaoFang WiFi Camera
 
 Download an sd-card image from the [releases](https://github.com/samtap/fang-hacks/releases) page or follow the manual steps below.
 
+**Updating**: If you've applied the hack before and are updating to a newer release, the web-interface will not allow you to apply the hack since (older versions of) scripts are already on the device. Make sure to click the Update button on the status page before rebooting!! This will copy all relevant files to the device, overwriting the previous version.
+
 ### 1. Prepare an sd-card with two partitions.
 The first partition on the device must be a vfat partition. It will only contain some small scripts so 100MiB should be more than enough.
 The second partition must be an ext2 partition and will contain all other files.
