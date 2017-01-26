@@ -55,3 +55,6 @@ By default the following services are enabled:
 - Dropbear SSH/SCP/SFTP 
 - A script controls the IR filter and LEDs
 - Manage the device via the status page ```http://device-ip/cgi-bin/status```
+
+## Support
+For questions, suggestions or just general discussion, please join #fanghacks on irc.freenode.net
