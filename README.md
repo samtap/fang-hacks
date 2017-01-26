@@ -27,7 +27,8 @@ When you visit ```http://device-ip/cgi-bin/status``` you should now be presented
 Click 'Apply' to enable the hacks. 
 
 ## Background
-The modifications aim to be as least intrusive as possible. Currently there's no recovery method when the device doesn't boot, so only a minimum of system files are modified. As long as you don't completely disable the cloud apps (DISABLE_CLOUD=1), you can always revert to original behavior by simply removing the sd-card. When cloud apps are disabled and no boot scripts are found on the sd-card (i.e. when it's not inserted), nothing is started when the device boots so you will not be able to access it through the web-interface, telnet, etc.
+The modifications aim to be as least intrusive as possible. Currently there's no known recovery methode, i.e. an image to flash to the device when it doesn't boot, though you can solder wires to it and get access to a serial console. When it still boots and mounts vfat partitions automatically, limited recovery options are available through snx_autorun.sh and config files in the bootstrap folder. 
+As long as you don't completely disable the cloud apps (DISABLE_CLOUD=1), you can always revert to original behavior by simply removing the sd-card. When cloud apps are disabled and no boot scripts are found on the sd-card (i.e. when it's not inserted), nothing is started when the device boots so you will not be able to access it through the web-interface, telnet, etc.
 
 Small system modifications are made when you click Apply on the status page:
 
