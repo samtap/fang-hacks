@@ -1,6 +1,7 @@
 #!/bin/sh
 
 source /etc/fang_hacks.cfg
+source /media/mmcblk0p2/data/etc/profile
 
 NETWORK_MODE=${NETWORK_MODE:-0}
 DISABLE_CLOUD=${DISABLE_CLOUD:-0}
