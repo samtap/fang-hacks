@@ -58,3 +58,4 @@ By default the following services are enabled:
 
 ## Support
 For questions, suggestions or just general discussion, please join #fanghacks on irc.freenode.net
+There's also a discord channel: https://discord.gg/xhRzpPn
