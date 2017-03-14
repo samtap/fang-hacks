@@ -79,10 +79,10 @@ if [ -e "$CFG_CLIENT" ]; then
 fi
 
 cat << EOF
+<!DOCTYPE html>
 <html>
 <head>
 <title>Fang Hacks</title>
-<head>
 <style type="text/css">
 body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
 .err { color: red; }
@@ -239,7 +239,7 @@ cat << EOF
 	
 window.onload = onLoad;
 </script>
-
+</head>
 <body>
 <h1>Network Settings</h1>
 <hr/>
