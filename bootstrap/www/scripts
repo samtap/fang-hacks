@@ -4,10 +4,10 @@ echo "Content-type: text/html"
 echo ""
 source func.cgi
 cat << EOF
+<!DOCTYPE html>
 <html>
 <head>
 <title>Fang Hacks</title>
-<head>
 <style type="text/css">
 body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
 .err { color: red; }
@@ -17,6 +17,7 @@ button, input[type=submit] { background-color: #ddeaff; }
 .tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 .tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 </style>
+</head>
 <body>
 <h1>Boot Scripts</h1>
 <hr/>
