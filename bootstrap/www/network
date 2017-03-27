@@ -83,6 +83,7 @@ cat << EOF
 <html>
 <head>
 <title>Fang Hacks</title>
+<head>
 <style type="text/css">
 body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
 .err { color: red; }
@@ -240,12 +241,15 @@ cat << EOF
 window.onload = onLoad;
 </script>
 </head>
+
 <body>
 <h1>Network Settings</h1>
 <hr/>
 <button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
-<button title='Info' type='button' onClick="window.location.href='scripts'">Scripts</button>
+<button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Scripts</button>
+<button title='Streams' type='button' onClick="window.location.href='streams'">Streams</button>
+<button title='StreamsIE' type='button' onClick="window.location.href='streamsie'">StreamsIE</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
 <div style='clear: both;'><pre>$ACTION_MSG</pre></div>

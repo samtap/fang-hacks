@@ -8,6 +8,7 @@ cat << EOF
 <html>
 <head>
 <title>Fang Hacks</title>
+<head>
 <style type="text/css">
 body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
 .err { color: red; }
@@ -24,8 +25,17 @@ button, input[type=submit] { background-color: #ddeaff; }
 <button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
 <button title='Network' type='button' onClick="window.location.href='network'">Network</button>
+<button title='Streams' type='button' onClick="window.location.href='streams'">Streams</button>
+<button title='StreamsIE' type='button' onClick="window.location.href='streamsie'">StreamsIE</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
+
+<script type="text/javascript">
+        function Refresh(){
+                window.location.href='scripts';
+        }
+        setInterval(Refresh, 10000);
+</script>
 EOF
 
 SCRIPT_HOME="/media/mmcblk0p2/data/etc/scripts"
