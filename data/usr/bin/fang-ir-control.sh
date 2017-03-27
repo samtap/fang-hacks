@@ -32,8 +32,7 @@ do
                        echo 0x0 > /proc/isp/filter/saturation
                         gpio_ms1 -n 2 -m 1 -v 0 # filter movement enabled
                         gpio_aud write 1 0 1    # enable ir led and latch the filter in the correct position
-                        gpio_ms1 -n 2 -m 1 -v 1 # # filter movement disabled
-                        echo 0x40 > /proc/isp/filter/saturation
+                        gpio_ms1 -n 2 -m 1 -v 1 # filter movement disabled
                         IR_ON=1
                 fi
         fi
