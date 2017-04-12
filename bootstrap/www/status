@@ -38,6 +38,12 @@ button, input[type=submit] { background-color: #ddeaff; }
 <br/>
 <br/>
 </div>
+<script type="text/javascript">
+        function Refresh(){
+                location.reload();
+        }
+        setInterval(Refresh, 60000);
+</script>
 EOF
 HACKS_HOME="/media/mmcblk0p2/data"
 if [ -x "/etc/fang_hacks.sh" ]; then
@@ -97,6 +103,8 @@ cat << EOF
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
 <button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
 <button title='Network' type='button' onClick="window.location.href='network'">Network</button>
+<button title='Streams' type='button' onClick="window.location.href='streams'">Streams</button>
+<button title='StreamsIE' type='button' onClick="window.location.href='streamsie'">StreamsIE</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
 <table class='tbl'>

@@ -123,6 +123,7 @@ else
   logmsg "CGI scripts not found in $CGI_FILES!"
 fi
 
+
 if [ $HACKS_ENABLED -ne 1 ]; then
    return 0
 fi
@@ -150,6 +151,24 @@ fi
   
 if [ -f "$HACKS_HOME/etc/profile" ]; then
   source "$HACKS_HOME/etc/profile" >/dev/null
+fi
+
+# Javascript for WEB stuff
+JS_FOLDER="/media/mmcblk0p1/bootstrap/js"
+if [ -d "$JS_FOLDER" ]; then
+  logmsg "Linking $JS_FOLDER -> /tmp/www/js"
+  ln -sf "$JS_FOLDER" "/tmp/www/js"
+else
+  logmsg "JS not found in $JS_FOLDER!"
+fi
+
+# Storage directory to store ffmpeg files
+STORAGE_FOLDER="/media/mmcblk0p2/data/storage"
+if [ -d "$STORAGE_FOLDER" ]; then
+  logmsg "Linking $STORAGE_FOLDER -> /tmp/www/storage"
+  ln -sf "$STORAGE_FOLDER" "/tmp/www/storage"
+else
+  logmsg "Storage not found in $STORAGE_FOLDER!"
 fi
 
 # Configuration files are located on vfat to allow off-line editing in any OS.

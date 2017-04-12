@@ -1,0 +1,98 @@
+#!/bin/sh
+
+echo "Content-type: text/html"
+echo ""
+source func.cgi
+cat << EOF
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fang Hacks</title>
+<head>
+<style type="text/css">
+.streamsList{ float:left; padding-right:10px;}
+body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
+.err { color: red; }
+hr { height: 1px; border: 0; border-top: 1px solid #aaa; }
+button, input[type=submit] { background-color: #ddeaff; }
+.tbl { border-collapse: collapse; border-spacing: 0;}
+.tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+.tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+</style>
+</head>
+<body>
+<h1>Boot Scripts</h1>
+<hr/>
+<button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
+<button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
+<button title='Scripts' type='button' onClick="window.location.href='scripts'">Scripts</button>
+<button title='Network' type='button' onClick="window.location.href='network'">Network</button>
+<button title='Streams' type='button' onClick="window.location.href='streams'">Streams</button>
+<button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
+<hr/>
+
+
+EOF
+
+
+STORAGE_HOME="/media/mmcblk0p2/data/storage"
+
+if [ ! -d "$STORAGE_HOME" ]; then
+  echo "No storage found in $STORAGE_HOME<br/>"
+else
+  streams=$(find "$STORAGE_HOME" -type d -name "stream*")
+  echo "<div class='streamsList'> <table class='tbl'>"
+  echo "<tr><th>streams</th><th>Action</th></tr>"
+  for i in $streams; do
+	filenames=$(find "$i" -type f -name "*m3u8")
+	streamdirectoryname=$(basename "$i")
+    echo "<tr>"
+    echo "<td>$i</td>"
+	for j in $filenames; do
+		currentfilename="$(basename $j)"
+		echo "<td><button title='Load streams' type='button' onClick=\"window.location.href='streamsie?cmd=play&filename=$streamdirectoryname/$currentfilename'\">Play</button</td>"
+	done
+	echo "</tr>"
+  done
+  echo "</table></div>"
+fi
+
+
+source "/media/mmcblk0p2/data/etc/profile" >/dev/null 2>&1
+if [ -n "$F_filename" ]; then
+  streams="${F_filename}"
+  if [ -e "$STORAGE_HOME/$streams" ]; then
+    case "$F_cmd" in
+      play)
+		echo "<div><div>"
+        echo "streams : '$streams'</div>"
+		echo "<video id="video"  controls>"
+		echo "<source src="../storage/$streams"  type="application/x-mpegURL">" 
+		echo "</video>"
+		echo "</div>"
+        ;;  
+      *)
+        echo "Unsupported command '$F_cmd'<br/>"
+        ;;
+    esac
+    echo "<br><hr/>"
+  else
+    echo "<br>$F_filename is not a valid streams zzz!<br/>"
+  fi
+fi
+
+
+
+
+
+cat << EOF
+<hr/>
+</body>
+</html>
+EOF
+
+
+
+<video id="video"  controls>
+<source src="../storage/stream.m3u8"  type="application/x-mpegURL">
+</video>

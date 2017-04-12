@@ -1,0 +1,41 @@
+#!/bin/sh
+PIDFILE="/var/run/ffmpeg-record.pid"
+
+status()
+{
+  pid="$(cat "$PIDFILE" 2>/dev/null)"
+  if [ "$pid" ]; then
+    kill -0 "$pid" >/dev/null && echo "PID: $pid" || return 1
+  fi
+}
+
+start()
+{
+  LOG=/dev/null
+  echo "Starting FFMPEG record..."
+  FFMPEG_HOME="/media/mmcblk0p2/data/test/ffmpeg"
+  STORAGE_HOME="/media/mmcblk0p2/data/storage"
+  unixdate=$(date +%s)
+  streamname="stream-${unixdate}"
+  mkdir $STORAGE_HOME/$streamname  
+  $FFMPEG_HOME/ffmpeg -i rtsp://localhost/unicast -c copy -hls_time 10 -hls_list_size 0 $STORAGE_HOME/$streamname/stream.m3u8 >$LOG 2>&1 &
+  echo "$!" > "$PIDFILE"
+}
+
+stop()
+{
+  pid="$(cat "$PIDFILE" 2>/dev/null)"
+  if [ "$pid" ]; then
+     kill $pid ||  rm "$PIDFILE"
+  fi
+}
+
+if [ $# -eq 0 ]; then
+  start
+else
+  case $1 in start|stop|status)
+    $1
+    ;;
+  esac
+fi
+
