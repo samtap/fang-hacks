@@ -86,6 +86,8 @@ apply()
   apply_file "/media/mmcblk0p1/bootstrap/rcS" "/etc/init.d/rcS" 755
   apply_file "/media/mmcblk0p1/bootstrap/fang_hacks.sh" "/etc/fang_hacks.sh" 755
   apply_file "/media/mmcblk0p1/bootstrap/fang_hacks.cfg" "/etc/fang_hacks.cfg" 644
+  apply_file "/media/mmcblk0p1/bootstrap/S01-network.sh" "/etc/init.d/S01-network.sh" 755
+  apply_file "/media/mmcblk0p1/bootstrap/S02-mount.sh" "/etc/init.d/S02-mount.sh" 755
 
   if [ -x "/etc/fang_hacks.sh" ]; then
     echo "Running fang_hacks.sh...<br/>"
