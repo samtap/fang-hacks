@@ -13,7 +13,7 @@ start()
 {
   LOG=/dev/null
   echo "Starting RTSP server..."
-  snx_rtsp_server -W 1920 -H 1080 -Q 10 -b 4096 -a >$LOG 2>&1 &
+  snx_rtsp_server >$LOG 2>&1 &
   echo "$!" > "$PIDFILE"
 }
 
