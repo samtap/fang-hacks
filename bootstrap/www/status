@@ -98,6 +98,7 @@ cat << EOF
 <button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
 <button title='Network' type='button' onClick="window.location.href='network'">Network</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
+<button title='View /var/log/messages' type='button' onClick="window.location.href='action?cmd=showmessages'">View messages</button>
 <hr/>
 <table class='tbl'>
 <tr>
