@@ -34,7 +34,7 @@ CMDLINE=$(echo $QUERY_STRING | sed 's/^.....//' | sed -e "s/\+/ /g" | sed -e "s/
 #don't save the file if it doesn't include _server in the command
 if [ -z "${CMDLINE##*_server*}" ]; then
   sed -i '/_server/c\'"$CMDLINE" /media/mmcblk0p2/data/etc/scripts/20-rtsp-server 2>&1
-  echo "File saved"
+  echo "File saved, 20-rtsp-server script must be restarted for changes to take effect"
 else
   echo "error"
 fi
