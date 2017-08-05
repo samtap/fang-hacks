@@ -65,7 +65,7 @@ Availability of some options depends on the program/version that is installed
         -a         : enable A-law pcm streaming</pre>
 EOF
 #note: to display command line options, following works in shell but does not work in script, needs to be improved
-#eval "$(grep -m 1 "_server" /media/mmcblk0p2/data/etc/test/20-rtsp-server | awk '{ print $1 }') -h"
+#eval "$(grep -m 1 "_server" /media/mmcblk0p2/data/etc/scripts/20-rtsp-server | awk '{ print $1 }') -h"
 cat << EOF
 </div>
 </body>
