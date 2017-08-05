@@ -4,6 +4,7 @@ echo "Content-type: text/html"
 echo ""
 
 cat << EOF
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -17,7 +18,7 @@ button, input[type=submit] { background-color: #ddeaff; }
 .tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 .tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
 </style>
-<head>
+</head>
 <body>
 <div style="font-family: monospace, fixed; font-weight: bold;">
 <span style=";color:#55f">____</span><span>&#160;&#160;</span><span style=";color:#55f">__.__</span><span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><span style=";color:#00a">________</span><span style=";color:#aaa">___</span><span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><br />
