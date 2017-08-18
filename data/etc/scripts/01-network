@@ -54,7 +54,7 @@ start()
       if [ ! -e "$CFG_WPA" ]; then echo "File not found: $CFG_WPA"; return 1; fi
       kill_network
 
-      wpa_supplicant -B -i wlan0 \
+      wpa_supplicant -Dwext -B -i wlan0 \
         -c /media/mmcblk0p2/data/etc/wpa_supplicant.conf \
         -P /var/run/wpa_supplicant.pid 2>&1
       rc=$?
