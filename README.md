@@ -2,7 +2,7 @@
 
 Collection of modifications for the XiaoFang WiFi Camera
 
-[![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im/samtap/fang-hacks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im//fang-hacks/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## General usage
 
