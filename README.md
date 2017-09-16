@@ -2,6 +2,8 @@
 
 Collection of modifications for the XiaoFang WiFi Camera
 
+[![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im/samtap/fang-hacks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## General usage
 
 Download an sd-card image from the [releases](https://github.com/samtap/fang-hacks/releases) page or follow the manual steps below.
@@ -55,7 +57,3 @@ By default the following services are enabled:
 - Dropbear SSH/SCP/SFTP 
 - A script controls the IR filter and LEDs
 - Manage the device via the status page ```http://device-ip/cgi-bin/status```
-
-## Support
-For questions, suggestions or just general discussion, please join #fanghacks on irc.freenode.net
-There's also a discord channel: https://discord.gg/xhRzpPn
