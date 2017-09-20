@@ -2,6 +2,8 @@
 
 Collection of modifications for the XiaoFang WiFi Camera
 
+**For questions, support and collaboration please join us on gitter. The discord channel is not used anymore.**
+
 [![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im//fang-hacks/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## General usage
