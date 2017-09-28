@@ -104,6 +104,12 @@ if [ -n "$F_cmd" ]; then
     cat /tmp/hacks.log
     echo "</pre>"
     ;;
+  showmessages)                                                                 
+    echo "Contents of /var/log/messages:<br/>"                                  
+    echo "<pre>"                                                                
+    cat /var/log/messages                                                       
+    echo "</pre>"                                                               
+    ;;         
   reboot)
     echo "Rebooting device...<br/>"
     /sbin/reboot
