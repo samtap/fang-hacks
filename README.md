@@ -59,3 +59,6 @@ By default the following services are enabled:
 - Dropbear SSH/SCP/SFTP 
 - A script controls the IR filter and LEDs
 - Manage the device via the status page ```http://device-ip/cgi-bin/status```
+
+## License
+Any files in this repo that are not already licensed (i.e. my scripts and tools but *not* 3rd party binaries like busybox, dropbear et.al) are licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). 
