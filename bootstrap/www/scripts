@@ -28,8 +28,10 @@ button, input[type=submit] { background-color: #ddeaff; }
 <hr/>
 EOF
 
-SCRIPT_HOME="/media/mmcblk0p2/data/etc/scripts"
-source "/media/mmcblk0p2/data/etc/profile" >/dev/null 2>&1
+source /etc/fang_hacks.cfg
+HACKS_HOME=${HACKS_HOME:-/media/mmcblk0p2/data}
+SCRIPT_HOME="${HACKS_HOME}/etc/scripts"
+source "${HACKS_HOME}/etc/profile" >/dev/null 2>&1
 if [ -n "$F_script" ]; then
   script="${F_script##*/}"
   if [ -e "$SCRIPT_HOME/$script" ]; then
@@ -37,7 +39,7 @@ if [ -n "$F_script" ]; then
       start)
         echo "Running script '$script'...<br/>"
         echo "<pre>$($SCRIPT_HOME/$script 2>&1)</pre>"
-        ;;  
+        ;;
       disable)
         echo "Disable script '$script'...<br/>"
         chmod a-x "$SCRIPT_HOME/$script" 2>&1
@@ -80,7 +82,7 @@ else
         if [ $? -eq 0 ]; then
           if [ -n "$status" ]; then
             bgcolor="green";
-          else 
+          else
             bgcolor="orange";
           fi
         else

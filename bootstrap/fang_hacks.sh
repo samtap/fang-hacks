@@ -93,6 +93,7 @@ if [ "$DISABLE_CLOUD" -eq 0 ]; then
     logmsg "Starting boa webserver..."
     # Copy to /tmp as a workaround for weird boa error (can't open boa.conf)
     cp /usr/boa/* /tmp
+    mkdir -p /tmp/cgi-bin
     /tmp/boa >/dev/null 2>&1
   fi
 
@@ -105,11 +106,16 @@ else
   logmsg "Starting boa webserver..."
   # Copy to /tmp as a workaround for weird boa error (can't open boa.conf)
   cp /usr/boa/* /tmp
+  mkdir -p /tmp/www/cgi-bin
   /tmp/boa >/dev/null 2>&1
 fi
 
 # Link cgi files again if available (/tmp is volatile)
-CGI_FILES="/media/mmcblk0p1/bootstrap/www"
+if [ -d "${HACKS_HOME}/www" ]; then
+  CGI_FILES="${HACKS_HOME}/www"
+else
+  CGI_FILES=/media/mmcblk0p1/bootstrap/www
+fi
 if [ -d "$CGI_FILES" ]; then
   for i in $CGI_FILES/*; do
     if [ ! -e "/tmp/www/cgi-bin/$(basename $i)" ]; then
