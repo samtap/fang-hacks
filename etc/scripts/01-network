@@ -59,7 +59,7 @@ start()
         -P /var/run/wpa_supplicant.pid 2>&1
       rc=$?
       if [ $rc -eq 0 ]; then
-        udhcpc -i wlan0 -p /var/run/udhcpc.pid -b 2>&1
+        udhcpc -i wlan0 -p /var/run/udhcpc.pid -b -x hostname:`hostname` 2>&1
         rc=$?
         if [ $rc -ne 0 ]; then
           echo "Failed to start udhcpc"
@@ -164,7 +164,7 @@ EOF
     return 1
   fi
   
-  udhcpc -i wlan0 -p /var/run/udhcpc.pid -b 2>&1
+  udhcpc -i wlan0 -p /var/run/udhcpc.pid -b -x hostname:`hostname` 2>&1
   if [ $? -ne 0 ]; then
     echo "Failed to start udhcpc"
     return 1
