@@ -1,0 +1,36 @@
+#!/bin/sh
+PIDFILE="/var/run/crond.pid"
+
+status()
+{
+  pid="$(cat "$PIDFILE" 2>/dev/null)"
+  if [ "$pid" ]; then
+    kill -0 "$pid" 2>/dev/null && echo "PID: $pid" || return 1
+  fi
+}
+
+start()
+{
+  echo "Starting crond..."
+  mkdir -p /var/spool/cron/crontabs
+  cp /media/mmcblk0p2/data/etc/crontab /var/spool/cron/crontabs/root
+  crond
+}
+
+stop()
+{
+  pid="$(cat "$PIDFILE" 2>/dev/null)"
+  if [ "$pid" ]; then
+     kill $pid || rm "$PIDFILE"
+  fi
+}
+
+if [ $# -eq 0 ]; then
+  start
+else
+  case $1 in start|stop|status)
+    $1
+    ;;
+  esac
+fi
+

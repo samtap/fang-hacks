@@ -1,0 +1,8 @@
+# /media/mmcblk0p2/data/etc/crontab: system-wide crontab
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/media/mmcblk0p2/data/usr/bin:/media/mmcblk0p2/data/usr/sbin
+
+# m h dom mon dow user  command
+* * * * * root pgrep snx_rtsp_server || /media/mmcblk0p2/data/etc/scripts/20-rtsp-server start
+
