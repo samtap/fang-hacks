@@ -1,4 +1,4 @@
 [submodule "bootstrap"]
 	path = bootstrap
-	url = https://github.com/samtap/fang-hacks
+	url = https://github.com/JameZUK/fang-hacks
 	branch = bootstrap
