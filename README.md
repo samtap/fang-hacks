@@ -2,6 +2,8 @@
 
 Collection of modifications for the XiaoFang WiFi Camera
 
+For Chuangmi 720 camera download tf_recovery.img, transfer to an SD card and boot. You should then be able to telnet into the camera. User: `root`, no password.
+
 **For questions, support and collaboration please join us on gitter. The discord channel is not used anymore.**
 
 [![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im//fang-hacks/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
