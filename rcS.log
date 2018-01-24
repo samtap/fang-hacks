@@ -1,0 +1,105 @@
+Log of post-boot attempt to run init.d/rcS
+
+# ./etc/init.d/rcS 
+cat: can't open '/proc/ft_mode': No such file or directory
+no securekey file, ft is not allowed
+ft_mode is:0
+Start detecting user_data
+exec overwrite.sh...
+/mnt/data/user_data not exist
+Sanity check CONFIG partition...
+Copy back log in TF
+Starting logging: OK
+Starting mdev...
+mount: mounting /dev/mmcblk0p1 on /mnt/media/mmcblk0p1 failed: Device or resource busy
+rmdir: '/mnt/media/mmcblk0p1': Device or resource busy
+Starting watchdog...
+read-only file system detected...done
+Starting system message bus: Failed to start message bus: The pid file "/var/run/messagebus.pid" exists, if the message bus is not running, remove this file
+done
+modprobe: module 'frammap.ko' not found
+vg boot
+vg_boot.sh, CONFIG_PARTITION: /gm/config
+rm: can't remove '/tmp/busybox': No such file or directory
+sh: write error: Device or resource busy
+insmod: can't insert '/lib/modules/3.3.0/frammap.ko': File exists
+----------------------------------------------------------------
+ddr name: frammap0 
+base: 0x1800000 
+end: 0x2b6d000 
+size: 0x136d000 bytes
+memory allocated: 0x136d000 bytes 
+memory free: 0x0 bytes 
+max available slice: 0x0 bytes
+memory allocate count: 29 
+clear address: 0x2b6d000 
+dirty pages: 4973 
+clear pages: 0 
+size alignment: 0x1000 
+insmod: can't insert '/lib/modules/3.3.0/log.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/ms.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/em.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/think2d.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/flcd200-common.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/flcd200-pip.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/sar_adc.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fe_common.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/adda308.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/ft3dnr200.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fisp328.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fisp_algorithm.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fisp_ov9732.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/vcap300_common.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/vcap0.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/vcap300_isp.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fmcp_drv.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/favc_enc.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/favc_rc.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/decoder.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fmjpeg_drv.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/sw_osg.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/fscaler300.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/osd_dispatch.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/codec.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/audio_drv.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/gs.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/loop_comm.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/vpd_slave.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/vpd_master.ko': File exists
+sh: write error: Device or resource busy
+insmod: can't insert '/lib/modules/3.3.0/ftpwmtmr010.ko': File exists
+insmod: can't insert '/lib/modules/3.3.0/key.ko': File exists
+insmod: can't insert '/mnt/data/imi/imi_modules/motor.ko': File exists
+hwclock: can't open '/dev/misc/rtc': No such file or directory
+start test.sh ...
+cat: can't open '/mnt/media/mmcblk0p1/manufacture/manufacture.txt': No such file or directory
+Normal Running !!
+Starting telnetd: FAIL
+Starting crond...
+Starting miio_avstreamer...
+Starting wifi 78:11:DC:37:66:B7...
+insmod: can't insert '/lib/modules/3.3.0/8189fs.ko': File exists
+ifconfig: SIOCSIFHWADDR: Operation not permitted
+Starting miio_client...
+[20180124 20:26:31] [INFO] Set TCP host to "ott.io.mi.com"
+[20180124 20:26:31] [INFO] Set UDP host to "ot.io.mi.com"
+[20180124 20:26:31] [ERROR] Socket bind port (54322) error: Address already in use
+[20180124 20:26:31] [ERROR] ot_agent_listenfd fail, maybe another miio_client is already running.
+Starting miot_devicekit(0)...
+Starting miot_qrcode...
+Starting miio_ota...
+Starting miio_smb...
+Start detecting tf_recovery.img
+/mnt/media/mmcblk0p1/tf_recovery.img not exist
+Starting restartd...
+./etc/init.d/rcS: line 163: /mnt/data/test/boot.sh: not found
+# killall: hostapd: no process killed
+killall: udhcpd: no process killed
+hwclock: can't open '/dev/misc/rtc': No such file or directory
+ioctl[SIOCSIWAP]: Operation not permitted
+Can't Open /dev/ftpwmtmr010!!!
+: Invalid argument
+dev init: infrared init fail: Invalid argument
+tar: removing leading '/' from member names
+tar: removing leading '/' from member names
+
