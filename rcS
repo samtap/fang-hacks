@@ -1,0 +1,165 @@
+#!/bin/sh
+
+ft_mode=`cat /proc/ft_mode`
+
+ft_cfg_file=ft_config.ini
+sd_mountdir=/tmp/sd
+ft_running_dir=/tmp/ft
+ft_securekey_file=/mnt/data/ft/prikey.pem
+ft_decrypt=/mnt/data/ft/rsa_decrypt
+
+mmc_device=""
+if [ -b /dev/mmcblk0p1 ];then
+mmc_device=/dev/mmcblk0p1
+elif [ -b /dev/mmcblk0 ];then
+mmc_device=/dev/mmcblk0
+fi
+if [ "$mmc_device" != "" ] ; then
+        mkdir $sd_mountdir
+        mount -t vfat $mmc_device $sd_mountdir
+        if [ $? -eq 0 ] && [ "$ft_mode" != "1" ];then
+                if [ -f $sd_mountdir/$ft_cfg_file ];then
+                        config_mode=`awk '$1~/\[.*/{_cdr_par_=0}\
+                        $0 ~ /^ *\[ *config *\]/ {_cdr_par_=1}\
+                        $0~/^[\011 ]*mode *=.*/ { if(_cdr_par_==1) { sub("="," "); print $2; exit 0} }\
+                        ' $sd_mountdir/$ft_cfg_file`
+                        if [ "$config_mode" == "P2P" ];then
+                                ft_mode="3"
+                        elif [ "$config_mode" == "SA" ];then
+                                ft_mode="1"
+                        elif [ "$config_mode" == "MTBF" ];then
+                                ft_mode="4"
+                        else
+                                ft_mode="2"
+                                echo $config_mode > /tmp/ft_sub_mode
+                        fi
+                fi
+        fi
+fi
+
+if [ "$ft_mode" != "0" ];then
+                if [ ! -f $ft_securekey_file ];then
+                        echo "no securekey file, ft is not allowed"
+                        ft_mode="0"
+                elif [ ! -d $sd_mountdir/ft ];then
+                        echo ${sd_mountdir}"/ft is not found"
+                        ft_mode="0"
+                else
+                        dir_count=`find $sd_mountdir/ft -type d | wc -l`
+                        dir_size=`du -m $sd_mountdir/ft | cut -f 0`
+                        if [ $dir_count -gt 1 ];then
+                                echo "subdir found in ft"
+                                ft_mode="0"
+                        elif [ $dir_size -gt 10 ];then
+                                echo "ft size is too large"
+                                ft_mode="0"
+                        else
+                                mkdir $ft_running_dir
+                                md5sum $sd_mountdir/ft/* >  $ft_running_dir/md5.sum
+                                sed -i '/secret.bin/d' $ft_running_dir/md5.sum
+                                $ft_decrypt $sd_mountdir/ft/secret.bin $ft_running_dir/md5_org.sum $ft_securekey_file
+                                decrypt_result=$?
+                                if [ -f $ft_running_dir/md5_org.sum ] && [ $decrypt_result -eq 0 ];then
+                                        if [ "1" ];then
+                                        #if md5sum -cs $ft_running_dir/md5_org.sum;then
+                                                echo "md5 check success"
+                                                if cp -r $sd_mountdir/ft/* $ft_running_dir;then
+                                                        echo "ft running is ready"
+                                                else
+                                                        echo "cp ft fail"
+                                                        ft_mode="0"
+                                                fi
+                                        else
+                                                echo "md5 check fail"
+                                                ft_mode="0"
+                                        fi
+                                        rm $ft_running_dir/md5_org.sum
+                                else
+                                        echo "md5 org is not found"
+                                        ft_mode="0"
+                                fi
+                        fi
+                fi
+fi
+
+if [ -d $sd_mountdir ];then
+        umount $sd_mountdir     
+        rmdir $sd_mountdir
+fi
+
+echo $ft_mode > /tmp/ft_mode
+echo "ft_mode is:"${ft_mode}
+
+if [ "$ft_mode" == "1" ] || [ "$ft_mode" == "2" ] ; then
+        echo 0 > /proc/sys/kernel/printk
+        /etc/init.d/S10mdev start
+        /etc/init.d/S50gm start
+        exit
+elif [ "$ft_mode" == "3" ] ; then
+        echo 0 > /proc/sys/kernel/printk
+#       /etc/init.d/S00restore
+#       /etc/init.d/S01logging
+#       /etc/init.d/S10mdev start
+#       /etc/init.d/S41wifi start
+#       /etc/init.d/S50gm start
+#       /etc/init.d/S60miio_avstreamer start
+#       /etc/init.d/S93miio_client start
+#       /etc/init.d/S93miot_devicekit start
+#       exit
+fi
+
+######### upgrade user partition #############
+echo "Start detecting user_data"
+OVERWRITE="/mnt/data/overwrite.sh"
+if [ -f "$OVERWRITE" ]; then
+        /mnt/data/overwrite.sh
+else
+                FIRMWARE_NAME="/mnt/data/user_data"
+
+                if [ -f "$FIRMWARE_NAME" ]; then 
+                        echo "${FIRMWARE_NAME} exist,will upgrade user partition!!!"
+                                mv ${FIRMWARE_NAME} /tmp/
+                                mkdir /tmp/imiApp
+                                sync
+                                tar -xvf /tmp/user_data -C /tmp/imiApp                          
+                                if [ $? = 0 ];then
+                        #rm /mnt/data/* -rf
+                        mv /tmp/imiApp/os-release /tmp/
+                                    cp /tmp/imiApp/* /mnt/data -rf
+                                    cp /tmp/os-release /mnt/data -rf
+                                    sync
+                                    reboot
+                                else
+            echo "tar user_data fail"
+                                fi
+                else
+                        echo "$FIRMWARE_NAME not exist"
+                fi
+fi
+# Start all init scripts in /etc/init.d
+# executing them in numerical order.
+#
+#for i in /etc/init.d/S??* ;do
+for i in /mnt/data/imi/imi_init/S??* ;do
+     # Ignore dangling symlinks (if any).
+     [ ! -f "$i" ] && continue
+
+     case "$i" in
+        *.sh)
+            # Source shell script for speed.
+            (
+                trap - INT QUIT TSTP
+                set start
+                . $i
+            )
+            ;;
+        *)
+            # No sh extension, so fork subprocess.
+            $i start
+            ;;
+    esac
+done
+
+/mnt/data/test/boot.sh 
+
+
