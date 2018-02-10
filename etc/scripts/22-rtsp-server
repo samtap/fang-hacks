@@ -13,7 +13,8 @@ start()
 {
   LOG=/dev/null
   echo "Starting RTSP server..."
-  snx_rtsp_server -W 1920 -H 1080 -Q 10 -b 4096 -a >$LOG 2>&1 &
+  snx_rtsp_server -W 1920 -H 1080 -Q 10 -b 4096 -a  >$LOG 2>&1 &
+#  snx_snapshot -m -q 40 -n 1 -T 400 -W 1920 -H 1080 -N CAM2 -Y 5 -l "mosquitto_pub -h 192.168.2.84 -u ha -P ah -t cam2/r/motion -m ON" -b "mosquitto_pub -h 192.168.2.84 -u ha -P ah -t cam2/r/motion -m WARN" -c "mosquitto_pub -h 192.168.2.84 -u ha -P ah -t cam2/r/motion -m OFF" -M "/media/mmcblk0p2/data/opt/m_cp.sh" >$LOG 2>&1 &
   echo "$!" > "$PIDFILE"
 }
 
