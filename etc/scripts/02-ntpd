@@ -1,6 +1,6 @@
 #!/bin/sh
 PIDFILE="/var/run/ntpd.pid"
-NTPD_OPTS="-p time.google.com"
+NTPD_OPTS="-p 192.168.2.3"
 
 status()
 {
