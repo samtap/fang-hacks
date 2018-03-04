@@ -125,7 +125,7 @@ connect()
 do_connect()
 {
   # temporary connect to ssid
-  if [ -z "$2" -o -z "$3" ]; then
+  if [ -z "$2" ]; then
     echo "Usage: $0 connect [ssid] [passphrase]"
     return 1
   fi
@@ -133,6 +133,15 @@ do_connect()
 ctrl_interface=/var/run/wpa_supplicant
 update_config=1
 EOF
+echo "network={" >> /tmp/wpa_tmp.conf
+printf "ssid=\"" >> /tmp/wpa_tmp.conf
+echo "$2"\" | tr '+' ' ' >> /tmp/wpa_tmp.conf
+if [ -z "$3" ]; then
+echo "key_mgmt=NONE" >> /tmp/wpa_tmp.conf
+else
+echo "psk=\"$3\"" >> /tmp/wpa_tmp.conf
+fi
+echo "}" >> /tmp/wpa_tmp.conf 
   if [ -e "/var/run/wpa_supplicant.pid" -o -d "/var/run/wpa_supplicant" ]; then
     echo "Terminating wpa_supplicant"
     killall wpa_supplicant
@@ -140,6 +149,10 @@ EOF
   if [ -e "/var/run/udhcpc.pid" ]; then
     echo "Terminating udhcpc"
     killall udhcpc
+  fi
+  if [ -e "/var/run/udhcpd.pid" ]; then
+    echo "Terminating udhcpd"
+    killall udhcpd
   fi
   if pidof hostapd >/dev/null; then
     echo "Terminating hostapd"
@@ -153,10 +166,15 @@ EOF
     if [ "$status" != "OK" ]; then echo "wpa_cli ssid failed: $status"; return 1; fi
     status="$(wpa_cli -iwlan0 set_network $id scan_ssid 1)"
     if [ "$status" != "OK" ]; then echo "wpa_cli scan_ssid failed: $status"; return 1; fi
-    status="$(wpa_cli -iwlan0 set_network $id key_mgmt WPA-PSK)"
-    if [ "$status" != "OK" ]; then echo "wpa_cli key_mgmt failed: $status"; return 1; fi
-    status="$(wpa_cli -iwlan0 set_network $id psk \"$3\")"
-    if [ "$status" != "OK" ]; then echo "wpa_cli psk failed: $status"; return 1; fi
+    if [ -z "$3" ]; then
+      status="$(wpa_cli -iwlan0 set_network $id key_mgmt NONE)"
+      if [ "$status" != "OK" ]; then echo "wpa_cli key_mgmt failed: $status"; return 1; fi
+    else
+      status="$(wpa_cli -iwlan0 set_network $id key_mgmt WPA-PSK)"
+      if [ "$status" != "OK" ]; then echo "wpa_cli key_mgmt failed: $status"; return 1; fi
+      status="$(wpa_cli -iwlan0 set_network $id psk \"$3\")"
+      if [ "$status" != "OK" ]; then echo "wpa_cli psk failed: $status"; return 1; fi
+    fi
     status="$(wpa_cli -iwlan0 enable_network $id)"
     if [ "$status" != "OK" ]; then echo "wpa_cli psk failed: $status"; return 1; fi
   else

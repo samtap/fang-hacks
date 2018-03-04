@@ -205,16 +205,20 @@ function apply_config() {
 function connect_ssid() {
   var ssid = document.getElementById('ssid_name').textContent;
   var enc = document.getElementById(ssid + '_ENC').value;
-  if (enc != "WPA") { alert("Sorry, " + enc + " encryption is not supported!"); return; }
+  if ((enc != "WPA") && (enc != "None")) { alert("Sorry, " + enc + " encryption is not supported!"); return; }
   var data = {
     action: 'connect',
     ssid: ssid,
     key: document.getElementById('ssid_key').value
   };
-  if (data['key'].length >= 8 && data['key'].length <= 63) {
+  if ((data['key'].length >= 8 && data['key'].length <= 63) || (data['key'].length == 0 && enc == "None")) {
     postData('/cgi-bin/network', data);
   } else {
-    alert("Passphrase must be between 8 and 63 chars!");
+    if (enc == "None") {
+      alert("Passphrase must be blank!");
+    } else {
+      alert("Passphrase must be between 8 and 63 chars!");
+    }
   }
 }
 
