@@ -108,6 +108,10 @@ if [ -n "$F_cmd" ]; then
     echo "Rebooting device...<br/>"
     /sbin/reboot
     ;;
+  poweroff)
+    echo "Powering off...<br/>"
+    /sbin/poweroff
+    ;;
   telnetd)
     echo "Starting default telnetd (port 23)...<br/>"
     start_telnetd

@@ -1,0 +1,73 @@
+#!/bin/sh
+
+echo "Content-type: text/html"
+echo ""
+
+CMDLINE="`grep -m 1 "_server" /media/mmcblk0p2/data/etc/scripts/20-rtsp-server`"
+
+cat << EOF
+
+<html>
+<head>
+<title>Fang Hacks</title>
+<style type="text/css">
+body { background-color: #B0E0E6; font-family: verdana, sans-serif; }
+.err { color: red; }
+hr { height: 1px; border: 0; border-top: 1px solid #aaa; }
+button, input[type=submit] { background-color: #ddeaff; }
+.tbl { border-collapse: collapse; border-spacing: 0;}
+.tbl th { text-align: left; vertical-align: top; font-weight: bold; padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+.tbl td { padding: 10px 5px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; }
+</style>
+<head>
+<body>
+<h1>Configure RTSP</h1>
+<hr/>
+<button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
+<button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
+<button title='Info' type='button' onClick="window.location.href='scripts'">Scripts</button>
+<button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
+<button title='Network' type='button' onClick="window.location.href='network'">Network</button>
+<hr/>
+<div style='clear: both;'>
+<form action="cfg_rtsp_save" id="textformid" method="get">
+  Command line: <input type="text" name="name" size="100" value="$CMDLINE"></input><br>
+  <input type="submit" />
+</form>
+<pre>Command line options:
+Availability of some options depends on the program/version that is installed
+        -A username:password: username and password for authentication
+        -Q length: Number of frame queue  (default 10)
+        ZXF options :
+        -D frame delay: Number of frames to delay  (default 0)
+        -R record thresh: Motion detection threshold to record (default -1, <0 for off)
+        -L record length: Number of frames to record per file (must be >= 10*fps)
+        -B record buffer: Number of frames to record prior to motion (must be <= 60)
+        RTSP options :
+        -u url     : unicast url (default unicast)
+        -m url     : multicast url (default multicast)
+        -M addr    : multicast group   (default is a random address)
+        -P port    : RTSP port (default 554)
+        -T port    : RTSP over HTTP port (default 0)
+        V4L2 options :
+        -F fps     : V4L2 capture framerate (default 30)
+        -i isp_fps : ISP capture framerate (default 30)
+        -W width   : V4L2 capture width (default 1280)
+        -H height  : V4L2 capture height (default 720)
+        V4L2 H264 options :
+        -b bitrate : V4L2 capture bitrate kbps(default 1024 kbps)
+        -g gop     : V4L2 capture gop (default 30 )
+        device     : V4L2 capture device (default /dev/video1)
+        V4L2 MJPEG options :
+        -j mjpeg_qp : MJPEG streaming and qp (default is 60)
+        -c capture path enable (default is disable)
+        -s encoder scale (1/2/4) (default is 1)
+        -a         : enable A-law pcm streaming</pre>
+EOF
+#note: to display command line options, following works in shell but does not work in script, needs to be improved
+#eval "$(grep -m 1 "_server" /media/mmcblk0p2/data/etc/scripts/20-rtsp-server | awk '{ print $1 }') -h"
+cat << EOF
+</div>
+</body>
+</html>
+EOF

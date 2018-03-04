@@ -95,8 +95,10 @@ cat << EOF
 <hr/>
 <button title='Start default telnetd on port 23' type='button' onClick="window.location.href='action?cmd=telnetd'">Start rescue telnetd</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
+<button title='Power off' type='button' onClick="window.location.href='action?cmd=poweroff'">Power off</button>
 <button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
 <button title='Network' type='button' onClick="window.location.href='network'">Network</button>
+<button title='Configure RTSP' type='button' onClick="window.location.href='cfg_rtsp'">Config RTSP</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <hr/>
 <table class='tbl'>
