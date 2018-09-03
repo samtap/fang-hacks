@@ -2,6 +2,8 @@
 
 Collection of modifications for the Xiaomi Chuangmi 720p WiFi Camera
 
+![Chuamngmi Camera](chuangmi.jpg?raw=true "Chuangmi 720P camera")
+
 Originally forked from fang-hacks, but now mostly a place to hold a workable bootstrap
 
 ## Reason
