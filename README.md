@@ -1,78 +1,114 @@
-# Fang Hacks
+# Chuangmi 720p hack
 
-Collection of modifications for the XiaoFang WiFi Camera
+Collection of modifications for the Xiaomi Chuangmi 720p WiFi Camera
 
-Forked for development of access to Chuangmi 720p camera
+Originally forked from fang-hacks, but now mostly a place to hold a workable bootstrap
 
-For Chuangmi 720 camera download tf_recovery.img, transfer to an SD card and boot. You should then be able to telnet into the camera. User: `root`, no password.
+## Reason
 
-Steps to get telnet access:
-1. Set up camera with MiHome app
-2. Go into details and make a note of camera IP address (e.g. 192.168.1.250)
-3. Copy tf_recovery.img to the root of an SD card
+From the factory, the camera can be found and set up by the Xiaomi MiHome app. It will then show a feed and provide talkback via the app, but this can raise privacy concerns, as the information is being sent via a server in China. Below is a series of steps which enables a local RTSP stream, and removes the reliance on an external connection.
+
+## Step 1: Initial setup
+
+Initial setup is performed using the Xiaomi MiHome app. This may not be necessary in future releases
+
+1. Install the app on an Android/iOS device
+2. Set up your account
+3. Add a camera
+4. Follow the onscreen steps until your camera is successfully added
+5. View the camera in the app and go to settings - **do not update the firmware** (it can make things harder)
+6. Make a note of the IP address of the camera
+
+## Step 2: Telnet access, image rollback
+
+A custom image which allows root access is required.
+
+1. Format a microSD card to FAT32
+2. Download tf_recovery.img
+3. Copy tf_recovery.img to the root directory of the SD card
 4. Unplug camera
 5. Insert SD card
 6. Plug in camera
 7. wait for about 2 minutes until lights go blue
-8. telnet 192.168.1.250 (same IP as in step 2) username: root, no password
+8. telnet 192.168.1.xx (camera IP as listed in the MiHome app) username: root, no password
 
-**For questions, support and collaboration please join us on gitter. The discord channel is not used anymore.**
+## Step 3: Load custom software
 
-[![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im//fang-hacks/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Custom software including RTSP server, SSH and Samba. This software was developed for the Mijia 720p camera, but appears to work here as well
+
+1. Download the latest release of mijia-720p-hack.zip from https://github.com/ghoost82/mijia-720p-hack/releases/latest/ (0.95 at time of writing)
+2. Unplug camera
+3. Eject SD card from camera
+4. Unzip the contents of mijia-720p-hack/sdcard/ to the root directory of the SD card
+5. Make any required changes to mijia-720p-hack.cfg
+5. Insert SD card into camera
+6. Plug in camera
+7. Wait for camera light to go solid blue. This may take a couple of minutes.
+
+Test it is working by going to http://192.168.1.xx (camera IP again) in your browser (assuming HTTP server is enabled) or using SSH to connect
+
 
 ## General usage
 
-Download an sd-card image from the [releases](https://github.com/samtap/fang-hacks/releases) page or follow the manual steps below.
+Telnet server
+-------------
 
-**Updating**: If you've applied the hack before and are updating to a newer release, the web-interface will not allow you to apply the hack since (older versions of) scripts are already on the device. Make sure to click the Update button on the status page before rebooting!! This will copy all relevant files to the device, overwriting the previous version.
+If enabled the telnet server is on port 23.
 
-### 1. Prepare an sd-card with two partitions.
-The first partition on the device must be a vfat partition. It will only contain some small scripts so 100MiB should be more than enough.
-The second partition must be an ext2 partition and will contain all other files.
+Default login/password:
 
-### 2. Copy bootstrap folder and snx_autorun.sh
-The bootstrap folder contains CGI scripts for the embedded Boa webserver. The ```snx_autorun.sh``` script is the entry-point for enabling the hacks.
+* login = root
+* password = 1234qwer (unless you specified another password in **mijia-720p-hack.cfg.cfg** file)
 
-Both must be copied to the vfat partition.
+SSH server
+----------
 
-### 3. Copy data folder
-The data folder must be copied to the ext2 partition.
+If enabled the SSH server is on port 22.
 
-### 4. Place sd-card in device
-Boot the device without sd-card, wait until the blue led stops flashing. The device will automatically run ```snx_autorun.sh``` when the sd-card is inserted. Do not boot the device with the card inserted and then re-insert it, to prevent it from being mounted incorrectly (mmcblk1 instead of mmcblk0).
+Default login/password:
 
-### 5. Enable hacks
-When you visit ```http://device-ip/cgi-bin/status``` you should now be presented with a status page. If you get a '404 Not Found' page, the ```snx_autorun.sh``` script didn't run. You can visit ``http://device-ip/cgi-bin/hello.cgi`` to check if the sd-card is mounted correctly. 
+* login = root
+* password = 1234qwer (unless you specified another password in **mijia-720p-hack.cfg.cfg** file)
 
-Click 'Apply' to enable the hacks. 
+RTSP Server
+-----------
 
-## Background
-The modifications aim to be as least intrusive as possible. Currently there's no known recovery methode, i.e. an image to flash to the device when it doesn't boot, though you can solder wires to it and get access to a serial console. When it still boots and mounts vfat partitions automatically, limited recovery options are available through snx_autorun.sh and config files in the bootstrap folder. 
-As long as you don't completely disable the cloud apps (DISABLE_CLOUD=1), you can always revert to original behavior by simply removing the sd-card. When cloud apps are disabled and no boot scripts are found on the sd-card (i.e. when it's not inserted), nothing is started when the device boots so you will not be able to access it through the web-interface, telnet, etc.
+If enabled the RTSP server is on port 554.
 
-Small system modifications are made when you click Apply on the status page:
+You can connect to live video stream (currently only supports 720p) on:
 
-- A modified sdcard hotplug script is placed on the device to automatically mount ext2 volumes.
-- Modified rc.local and rcS scripts are placed in /etc/init.d to enable hacks when the device is rebooted. It also disables copying original files from /root/etc_default to prevent overwriting changes to files in /etc. This poses a risk so always be extra careful when editing files in /etc
-- The fang_hacks.sh script and cfg file are placed in /etc.
+`rtsp://your-camera-ip/live/ch00_0`
 
-## Hacks
-When the status page shows the hacks have been applied successfully, the following features are available:
-- The data partition can be extended to use all the space available, in case you installed a pre-created sdcard image.
-- You can switch the network mode to WiFi Client or HotSpot mode, completely disable the cloud apps and have a RTSP server running in 15 seconds after applying power. 
-- You can place any binaries, scripts etc. you need in the data folder on the sd-card. The device only has limited space available on internal flash so you don't risk running out of space.
-- A busybox build is provided with many applets available such as telnetd, ftpd, netcat.
-- A dropbear build is provided with support for SSH/SFTP. Use sshfs to access all data on the sdcard remotely.
-- Scripts placed in data/etc/scripts will be automatically executed after the device boots.
+For stability reasons it is recommend to disable cloud services while using RTSP.
 
-## Services
-By default the following services are enabled:
-- FTP server
-- RTSP server (url: ```rtsp://device-ip/unicast```)
-- Telnetd on port 2323 (user: root, password: ismart12)
-- Dropbear SSH/SCP/SFTP 
-- A script controls the IR filter and LEDs
-- Manage the device via the status page ```http://device-ip/cgi-bin/status```
+FTP server
+----------
+
+If enabled the FTP server is on port 21.
+
+There is no login/password required.
+
+Samba
+-----
+
+If enabled the `MIJIA_RECORD_VIDEO` directory can be accessed via CIFS.
+The share is readable by everyone.
+
+Default login/password for read/write access:
+* login = root
+* password = 1234qwer (unless you specified another password in **mijia-720p-hack.cfg.cfg** file)
+
+
+Cloud Services
+--------------
+
+Disabling the cloud services disables the following functions:
+
+* Motion detection
+* No video data or configuration with the smartphone application
+* No recordings on the SD card or a remote file system
+
+For stability reasons it is recommend to disable cloud services while using RTSP.
 
 ## License
-Any files in this repo that are not already licensed (i.e. my scripts and tools but *not* 3rd party binaries like busybox, dropbear et.al) are licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). 
+Any files in this repo that are not already licensed (i.e. scripts and tools but *not* 3rd party binaries like busybox, dropbear et.al) are licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
