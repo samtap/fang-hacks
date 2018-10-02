@@ -280,10 +280,10 @@ echo "<option value='' disabled selected style='display:none;'>Label</option>"
 
 hidden=""
 while read x; do
-  SSID=$(echo $x | cut -d' ' -f1)
-  ADDR=$(echo $x | cut -d' ' -f2)
-  ENC=$(echo $x | cut -d' ' -f3)
-  QUAL=$(echo $x | cut -d' ' -f4)
+  SSID=$(echo "$x" | cut -f1)
+  ADDR=$(echo "$x" | cut -f2)
+  ENC=$(echo "$x" | cut -f3)
+  QUAL=$(echo "$x" | cut -f4)
   echo "<option id=\"${SSID}_OPT\">$SSID</option>"
   hidden="$hidden 
          <input type='hidden' id=\"${SSID}_QUAL\" value=\"$QUAL\"/> 

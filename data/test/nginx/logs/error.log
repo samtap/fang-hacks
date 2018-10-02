@@ -1,3 +1,0 @@
-2017/01/23 17:42:33 [emerg] 10713#0: "server" directive is not allowed here in ./nginx/conf/nginx.conf:26
-2017/01/23 17:45:41 [emerg] 10839#0: open() "./nginx/conf/mime.types" failed (2: No such file or directory) in ./nginx/conf/nginx.conf:27
-2017/01/23 17:46:07 [emerg] 10857#0: unknown directive "if" in ./nginx/conf/nginx.conf:46

@@ -1,5 +1,0 @@
-echo "Welcome to XiaoFang Hacks :-)"
-HACKS_HOME="/media/mmcblk0p2/data"
-export PATH="$HACKS_HOME/bin:$HACKS_HOME/sbin:$HACKS_HOME/usr/bin:$HACKS_HOME/usr/sbin:/bin:/sbin:/usr/bin:/usr/sbin"
-export LD_LIBRARY_PATH="$HACKS_HOME/lib:$HACKS_HOME/usr/lib"
-#cd "$HACKS_HOME"

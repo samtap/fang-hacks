@@ -2,6 +2,10 @@
 
 Collection of modifications for the XiaoFang WiFi Camera
 
+**For questions, support and collaboration please join us on gitter. The discord channel is not used anymore.**
+
+[![Join the chat at https://gitter.im/samtap/fang-hacks](https://badges.gitter.im/samtap/fang-hacks.svg)](https://gitter.im//fang-hacks/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## General usage
 
 Download an sd-card image from the [releases](https://github.com/samtap/fang-hacks/releases) page or follow the manual steps below.
@@ -56,6 +60,5 @@ By default the following services are enabled:
 - A script controls the IR filter and LEDs
 - Manage the device via the status page ```http://device-ip/cgi-bin/status```
 
-## Support
-For questions, suggestions or just general discussion, please join #fanghacks on irc.freenode.net
-There's also a discord channel: https://discord.gg/xhRzpPn
+## License
+Any files in this repo that are not already licensed (i.e. my scripts and tools but *not* 3rd party binaries like busybox, dropbear et.al) are licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). 
