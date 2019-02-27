@@ -1,7 +1,7 @@
 #!/bin/sh
                                      
 source /etc/fang_hacks.cfg
-if [ "$DISABLE_CLOUD" -eq 0 ]; then
+if [ "$DISABLE_CLOUD" -eq 1 ]; then
 	echo "Stopping Cloud applications..."
 	pid="$(pidof test_UP)"
 	if [ $? -eq 0 ]; then
